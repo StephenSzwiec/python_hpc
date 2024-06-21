@@ -1,0 +1,14 @@
+#!/bin/bash
+#PBS -q default
+#PBS -N pytorch_cpu_test
+#PBS -l select=1:mem=16gb:ncpus=4
+#PBS -l walltime=08:00:00
+## replace "x-ccast-prj-" below with your "x-ccast-prj-[your group name]"
+#PBS -W group_list=x-ccast-prj-
+
+cd ${PBS_O_WORKDIR}
+
+## load anaconda PyTorch environment
+source /mmfs1/apps/pyenvs/anaconda3-2022.05/bin/activate pytorch
+
+python pytorch.py 

@@ -1,0 +1,16 @@
+#!/bin/bash
+#PBS -q default
+#PBS -N tf_cpu_test
+#PBS -l select=1:mem=16gb:ncpus=4
+#PBS -l walltime=08:00:00
+## replace "x-ccast-prj" below with "x-ccast-prj-[your project group name]"
+#PBS -W group_list=x-ccast-prj-
+
+cd ${PBS_O_WORKDIR}
+
+## load anaconda TensorFlow environment
+source /mmfs1/apps/pyenvs/anaconda3-2022.05/bin/activate tf-2.10
+
+python3 tf_cpu.py 
+
+exit 0

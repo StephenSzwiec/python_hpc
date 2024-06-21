@@ -1,0 +1,18 @@
+#!/bin/bash
+#PBS -q gpus
+#PBS -N pytorch_gpu_test
+#PBS -l select=1:mem=16gb:ncpus=4:ngpus=1
+#PBS -l walltime=08:00:00
+## replace "x-ccast-prj-" below with your "x-ccast-prj-[your group name]"
+#PBS -W group_list=x-ccast-prj-
+
+cd ${PBS_O_WORKDIR}
+
+## load cuda and cudnn modules
+module load cuda/12.3
+module load cudnn/8.9
+
+## load anaconda PyTorch environment
+source /mmfs1/apps/pyenvs/anaconda3-2022.05/bin/activate pytorch
+
+python pytorch.py 

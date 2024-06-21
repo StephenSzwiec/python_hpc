@@ -1,0 +1,20 @@
+#!/bin/bash
+#PBS -q gpus
+#PBS -N tf_gpu_test
+#PBS -l select=1:mem=16gb:ncpus=4:ngpus=1
+#PBS -l walltime=04:00:00
+##change "x-ccast-prj" to "x-ccast-prj-[your project group name]"
+#PBS -W group_list=x-ccast-prj-
+
+cd ${PBS_O_WORKDIR}
+
+## load cuda and cudnn modules
+module load cudnn/8.4
+module load cuda/11.4
+
+## load anaconda TensorFlow environment
+source /mmfs1/apps/pyenvs/anaconda3-2022.05/bin/activate tf-2.10
+
+python tf_gpu.py
+
+exit 0
