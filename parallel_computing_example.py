@@ -4,7 +4,7 @@
 '''
 Title: Parallel Computing Example
 Author: Stephen Szwiec
-Date: 2024-06-11
+Date: 2024-06-31
 
 Description: This code demonstrates the following:
     - Pythonic loops are slow 
@@ -30,9 +30,18 @@ Approaches:
 '''
 
 '''
+Region Metadata
+'''
+__author__ = "Stephen Szwiec"
+__email__ = "stephen.szwiec@ndsu.edu"
+__status__ = "Development"
+__license__ = "GPLv3"
+
+'''
 Region: import libraries
 '''
 import os
+import shutil
 import time
 import random
 import math
@@ -43,6 +52,7 @@ from multiprocessing import Pool
 import numba
 from numba import jit
 from joblib import Parallel, delayed
+from argparse import ArgumentParser
 
 '''
 Region: function definitions
@@ -93,12 +103,32 @@ def numba_approach(data):
 def parallel_computing_approach(data):
     return sum(Parallel(n_jobs=-1,prefer="threads")(delayed(numba_approach)(i) for i in np.array_split(data, mp.cpu_count())))
 
+'''
+Region: argument parser
+'''
+def parse_args():
+    parser = ArgumentParser(
+            description="Parallel Computing Example")
+    parser.add_argument("-n", "--size", dest="size",
+                        type=int, help="Size of the dataset 10^x", 
+                        action="store", required=False)
+    return parser.parse_args()
+
+'''
+Region: main function
+'''
 def main():
+    good_input = False
+    args = parse_args()
+    # check if the user entered a dataset size
+    if args.size:
+        dataset_size = args.size
+        good_input = True
+    # otherwise, prompt the user for the dataset size
     print("Hello, Parallel Computing Example!")
     print("Task 1: Compute the sum of the squared odd numbers")
     print("---------------------------------------------------")
     # use a case statement to determine the size of the dataset
-    good_input = False
     while not good_input:
         dataset_size = input("Enter the size of the dataset 10^x: ")
         try:
@@ -156,8 +186,9 @@ def main():
     print(f"Multiprocessing speedup: {loop_time / parallel_time}")
     print(f"Parallel computing speedup: {loop_time / parallel_computing_time}")
     print("---------------------------------------------------")
-    # do we got gnuplot ?
-    if os.system("which gnuplot > /dev/null") == 0:
+    # do we have gnuplot installed?
+    # use exit status of which gnuplot 
+    if shutil.which("gnuplot"):
         print("Generating plot...")
         with open("speedup.dat", "w") as f:
             f.write("Approach Speedup\n")

@@ -1,0 +1,21 @@
+#!/bin/bash
+#PBS -q training
+#PBS -N python_parallel
+#PBS -j oe
+#PBS -l select=1:ncpus=8:mem=8gb
+#PBS -l walltime=30:00
+#PBS -W group_list=x-ccast-prj-
+
+cd $PBS_O_WORKDIR
+
+module load gnuplot
+
+# requires a conda environment with the packages
+# provided by example.yml, which can be created with
+# conda env create -n example -f example.yml
+conda activate example
+
+# examples of data sizes in powers of 10^n
+python parallel_computing_example.py -n 3 
+python parallel_computing_example.py -n 5
+python parallel_computing_example.py -n 6
