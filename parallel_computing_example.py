@@ -4,7 +4,7 @@
 '''
 Title: Parallel Computing Example
 Author: Stephen Szwiec
-Date: 2024-06-31
+Date: 2024-08-14
 
 Description: This code demonstrates the following:
     - Pythonic loops are slow 
